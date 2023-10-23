@@ -1,0 +1,26 @@
+-1-Fim do programa
+
+0-MENU PRINCIPAL:
+	1-Consultar Filmes
+		*Exibe a lista de filmes
+		1.1-Exibir apenas gênero x
+		1.2-Exibir apenas Letra x
+		1.3-Exibir apenas ano x
+		
+		1.4-Efetuar pedido(Id) (Leva para 3.1 pré preenchido)
+		1.4-Cadastrar novo filme
+		1.5-Retirar filme
+	
+	2-Consultar clientes
+		*Exibe a lista de clientes
+		2.1-Consultar cliente (CPF)
+			2.1.1-Exibir pedidos(Leva para 3.2 pré preenchido) 
+			2.1.2-Desativar cliente
+			2.1.3-Excluir cliente
+		
+	3-Consultar pedidos
+		*Exibe lista de pedidos
+		3.1-Efetuar pedido
+		3.2-Filtrar cpf
+		3.3-Exibir apenas em status x
+		

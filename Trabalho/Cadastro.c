@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 
 //Cadastro de Cliente
 /*
@@ -13,11 +14,50 @@
 
 */
 
+typedef struct{
+	int estado;
+	char *cidade;
+	char *rua;
+	int *numero;
+}local
+
+typedef struct{
+	int cpf;
+	char *nome;
+	char *email;
+	char *telefone;
+	time_t dataNascimento;
+	int sexo;//0-Masculino, 1-Feminino, 3-Não Binário
+	local endereco;
+	int status;//0-Ativo, 1-Desativado
+	
+}cliente;
+
+typedef struct{
+	int id;
+	char *nome;
+	int ano;
+	int genero;//0-Ação, 1-Aventura, 2-Comédia, 3-Drama, 4-Romance, 5-Suspense  6-Terror
+	float duracao;//em horas
+	
+}filme;
+
+typedef struct{
+	int id;
+	int idFilme;
+	int cpf;
+	time_t data;
+	int prazo;//5 reais por dia
+	float preco;
+	int status;//0-Solicitado, 1-Pago, 2-Encerrado;
+	
+}pedido;
+
 int main(){
 
 /*1 ---- a parte de cadastro quando entra na função pede os dados do usuario
 sendo eles:
-CPF - NOME - Email - Telefone - DATA de Nascimento - Sexo - endereço - pedidos - status do cadastro
+CPF - NOME - Email - Telefone - DATA de Nascimento - Sexo - endereço - status do cadastro
 -- cada cliente novo realiza um sort para deixar sempre ordenado os cadastros.(a ser definido o tipo de sort)
 */
 
