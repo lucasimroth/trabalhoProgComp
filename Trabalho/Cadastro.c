@@ -53,6 +53,15 @@ typedef struct{
 	
 }pedido;
 
+/****************/
+/*  PROTÓTIPOS  */
+/****************/
+
+int mainMenu();//retorna stateProgram
+void consultaFilmes();
+void consultaClientes();
+void consultaPedidos();
+
 int main(){
 
 /*1 ---- a parte de cadastro quando entra na função pede os dados do usuario
@@ -83,17 +92,26 @@ com o cpf sera mostrado todos os dados do cadastro.
 a exclusão apaga do registro todos os dados do cliente e reajusta a numeração de cada cliente para encaixar no processo, excluir o 02 faz o 03 virar 02 e assim consecutivamente
 -- pergunta se tem certeza que deseja excluir, se quer somente desativar ou sair dessa tela, e confirmar com um sim ou não se clicar em excluir.
 */ 
-
-
-
-
-
-
-
-
-
-
-
+	int stateProgram = 0
+	
+	//MÁQUINA DE ESTADOS
+	while(stateProgram > -1){
+		switch(stateProgram){
+			//STATES PRINCIPAIS
+			case 0:
+				mainMenu();
+				break;
+			case 1:
+				consultaFilmes();
+				break;
+			case 2:
+				consultaClientes();
+				break;
+			case 3:
+				consultaPedidos();
+				break;
+		}
+	}
 
     return 1;
 }
