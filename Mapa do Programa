@@ -6,10 +6,10 @@
 		11-Exibir apenas gênero x
 		12-Exibir apenas Letra x
 		13-Exibir apenas ano x
-		
 		14-Efetuar pedido(Id) (Leva para 31 pré preenchido)
 		14-Cadastrar novo filme
-		15-Retirar filme
+		15-Descadastrar filme
+		16-Valor do aluguel do filme;
 	
 	2-Consultar clientes
 		*Exibe a lista de clientes
@@ -17,10 +17,13 @@
 			211-Exibir pedidos(Leva para 32 pré preenchido) 
 			212-Desativar cliente
 			213-Excluir cliente
+			214-Cadastrar cliente;
 		
 	3-Consultar pedidos
 		*Exibe lista de pedidos
 		31-Efetuar pedido
 		32-Filtrar cpf
 		33-Exibir apenas em status x
+		34-Exibir valor dos pedidos por cliente;
+		35-Total do valor de todos filmes locados up to date;
 		
