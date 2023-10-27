@@ -28,12 +28,12 @@ typedef struct{
 	char *nome;
 	char *email;
 	char *telefone;
-	time_t dataNascimento;
+	char *dataNascimento;
 	int sexo;//0-Masculino, 1-Feminino, 3-Não Binário
 	local endereco;
 	int status;//0-Ativo, 1-Desativado
 	
-}cliente;
+}clientes;
 
 typedef struct{
 	int id;
@@ -42,7 +42,7 @@ typedef struct{
 	int genero;//0-Ação, 1-Aventura, 2-Comédia, 3-Drama, 4-Romance, 5-Suspense  6-Terror
 	float duracao;//em horas
 	
-}filme;
+}filmes;
 
 typedef struct{
 	int id;
@@ -66,22 +66,21 @@ void consultaPedidos();
 void cadastroClientes();
 void listagemClientes();
 void consultaCPF();
-void excluirCliente();
+void excluirClientes();
 
 //----------------------------------------------------------- MAIN ----------------------------------------------------------------------
 
 int main(){
 
 
-	int stateProgram = 0;
+	int stateMain;
 
 	//MÁQUINA DE ESTADOS
-	while(stateProgram > -1){
-		switch(stateProgram){
+	while(stateMain != 0){
+		scanf("%d", &stateMain);
+		switch(stateMain){
 			//STATES PRINCIPAIS
-			case 0:
-				mainMenu();
-				break;
+
 			case 1:
 				consultaFilmes();
 				break;
@@ -91,6 +90,8 @@ int main(){
 			case 3:
 				consultaPedidos();
 				break;
+			default:
+			break;
 		}
 	}
 
@@ -100,7 +101,44 @@ int main(){
 
 //1 ---------------------------------------- CADASTRO --------------------------------------------------------------
 
+
+void consultaClientes(){
+	int stateConsult = -1;
+
+	while (stateConsult != 0)
+	{
+		scanf("%d", &stateConsult);
+
+		switch (stateConsult)
+		{
+			case 1:
+				cadastroClientes();
+				break;
+			case 2:
+				listagemClientes();
+				break;
+			case 3:
+				consultaCPF();
+				break;
+			case 4:
+				excluirClientes();
+				break;
+		default:
+			break;
+		}
+	}
+}
+
 void cadastroClientes(){
+	int stateCad = -1;
+	while (stateCad != 0)
+	{
+		scanf("%d", &stateCad);
+		
+		printf("digite o CPF: ");
+		scanf("%d", );
+	}
+	
 
 /*a parte de cadastro quando entra na função pede os dados do usuario
 sendo eles:
