@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <time.h>
+#include <ctype.h>
 
 //Cadastro de Cliente
 /*
@@ -165,7 +166,7 @@ void cadastroClientes(clientes *clientesStruct){
 				printf("\nDigite o nome: ");
 				scanf("%s", clientesStruct[0].nome);
 
-				marcaVerificacao = verificaLeStr(clientesStruct->nome, 1);
+				marcaVerificacao = verificaLeStr(clientesStruct->nome);
 				
 			}
 			
@@ -227,15 +228,24 @@ stateCad = -1;
 	}
 
 // leitura da String ------
-	int verificaLeStr(clientes *nome, int funcao){
+	int verificaLeStr(clientes *nome){
 		int contador = 0;
 		int *memoria = &nome;
 
-		while (*memoria != 0)
+		
+		while (*memoria != '\0')
 		{
-			contador++;
+			if(*memoria > 'a' && *memoria < 'z'){
+				*memoria = toupper(*memoria);
+			}
+			if(*memoria < 'A' || *memoria > 'Z'){
+				printf("\nnome invalido.\n");
+				return 0;
+			}else{
 			memoria++;
+			}
 		}
+		
 		return contador;
 	} 
 
