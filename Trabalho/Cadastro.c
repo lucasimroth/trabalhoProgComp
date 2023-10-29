@@ -61,13 +61,15 @@ typedef struct{
 
 
 int mainMenu();//retorna stateProgram
+//void alocacaoClientes();
 void consultaFilmes();
 void consultaClientes();
 void consultaPedidos();
 
 void cadastroClientes();
 	int validacaoCPF();
-	int verificaLeStr();
+	int validacaoStr();
+	int validacaoEmail();
 void listagemClientes();
 void consultaCPF();
 void excluirClientes();
@@ -77,6 +79,7 @@ void excluirClientes();
 int main(){
 
 	clientes clientesStruct[1];
+	//alocacaoClientes(clientesStruct);
 
 	FILE *arquivoClientes;
 
@@ -104,6 +107,17 @@ int main(){
 
     return 1;
 }
+// Alocação de memoria struct Clientes -------------
+
+/*void alocacaoClientes(clientes *alocar){
+	clientes[0].nome = (char *) malloc(100);
+	char *email;
+	char *telefone;
+	char *dataNascimento;
+	int sexo;//0-Masculino, 1-Feminino, 3-Não Binário
+	local endereco;
+	int status;//0-Ativo, 1-Desativado
+}*/
 
 
 //1 ---------------------------------------- CADASTRO --------------------------------------------------------------
@@ -119,7 +133,7 @@ void consultaClientes(clientes *clientesStruct, FILE *arquivoClientes){
 		switch (stateConsult)
 		{
 			case 1:
-				cadastroClientes(clientesStruct);
+				cadastroClientes(clientesStruct, &arquivoClientes);
 				break;
 			case 2:
 				listagemClientes();
@@ -141,7 +155,7 @@ sendo eles:
 CPF - NOME - Email - Telefone - DATA de Nascimento - Sexo - endereço - status do cadastro
 -- cada cliente novo realiza um sort para deixar sempre ordenado os cadastros.(a ser definido o tipo de sort)*/
 
-void cadastroClientes(clientes *clientesStruct){
+void cadastroClientes(clientes *clientesStruct, FILE *arquivoClientes){
 	int stateCad = -1;
 	int verificacaoCad, marcaVerificacao = -1;
 
@@ -166,9 +180,19 @@ void cadastroClientes(clientes *clientesStruct){
 				printf("\nDigite o nome: ");
 				scanf("%s", clientesStruct[0].nome);
 
-				marcaVerificacao = verificaLeStr(clientesStruct->nome);
+				marcaVerificacao = validacaoStr(clientesStruct->nome);
 				
 			}
+			marcaVerificacao = -1;
+
+			while (marcaVerificacao != 1)
+			{
+				printf("\ndigite seu e-mail: ");
+				scanf("%s", clientesStruct[0].email);
+
+				marcaVerificacao = validacaoEmail(clientesStruct->email);
+			}
+			
 			
 
 		}else{
@@ -228,7 +252,7 @@ stateCad = -1;
 	}
 
 // leitura da String ------
-	int verificaLeStr(clientes *nome){
+	int validacaoStr(clientes *nome){
 		int contador = 0;
 		int *memoria = &nome;
 
@@ -245,8 +269,7 @@ stateCad = -1;
 			memoria++;
 			}
 		}
-		
-		return contador;
+		return 1;	
 	} 
 
 
