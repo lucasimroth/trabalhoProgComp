@@ -63,7 +63,10 @@ int mainMenu();//retorna stateProgram
 void consultaFilmes();
 void consultaClientes();
 void consultaPedidos();
+
 void cadastroClientes();
+	int validacaoCPF();
+	int verificaLeStr();
 void listagemClientes();
 void consultaCPF();
 void excluirClientes();
@@ -72,6 +75,9 @@ void excluirClientes();
 
 int main(){
 
+	clientes clientesStruct[1];
+
+	FILE *arquivoClientes;
 
 	int stateMain;
 
@@ -85,7 +91,7 @@ int main(){
 				consultaFilmes();
 				break;
 			case 2:
-				consultaClientes();
+				consultaClientes(clientesStruct, &arquivoClientes);
 				break;
 			case 3:
 				consultaPedidos();
@@ -102,7 +108,7 @@ int main(){
 //1 ---------------------------------------- CADASTRO --------------------------------------------------------------
 
 
-void consultaClientes(){
+void consultaClientes(clientes *clientesStruct, FILE *arquivoClientes){
 	int stateConsult = -1;
 
 	while (stateConsult != 0)
@@ -112,7 +118,7 @@ void consultaClientes(){
 		switch (stateConsult)
 		{
 			case 1:
-				cadastroClientes();
+				cadastroClientes(clientesStruct);
 				break;
 			case 2:
 				listagemClientes();
@@ -129,25 +135,109 @@ void consultaClientes(){
 	}
 }
 
-void cadastroClientes(){
-	int stateCad = -1;
-	while (stateCad != 0)
-	{
-		scanf("%d", &stateCad);
-		
-		printf("digite o CPF: ");
-		scanf("%d", );
-	}
-	
-
 /*a parte de cadastro quando entra na função pede os dados do usuario
 sendo eles:
 CPF - NOME - Email - Telefone - DATA de Nascimento - Sexo - endereço - status do cadastro
 -- cada cliente novo realiza um sort para deixar sempre ordenado os cadastros.(a ser definido o tipo de sort)*/
 
+void cadastroClientes(clientes *clientesStruct){
+	int stateCad = -1;
+	int verificacaoCad, marcaVerificacao = -1;
 
+	while (stateCad != 0)
+	{
+		printf("tem certeza que gostaria de realizar um novo cadastro?\n 1 - sim\n0 - não");
+		scanf("%d", &verificacaoCad);
 
+		if(verificacaoCad != 1){
+
+			while (marcaVerificacao != 1)
+			{
+				printf("\nDigite o CPF: ");
+				scanf("%d", &clientesStruct[0].cpf);
+
+				marcaVerificacao =  validacaoCPF(clientesStruct->cpf);
+			}
+			marcaVerificacao = -1;
+
+			while (marcaVerificacao != 1)
+			{
+				printf("\nDigite o nome: ");
+				scanf("%s", clientesStruct[0].nome);
+
+				marcaVerificacao = verificaLeStr(clientesStruct->nome, 1);
+				
+			}
+			
+
+		}else{
+			stateCad = 0;
+		}
+	
+	}
+stateCad = -1;
 }
+
+// VALIDAÇÃO DO CPF ----
+	int validacaoCPF(clientes *CPF){
+		int verificaCPF = CPF, verificaAux, verificaSoma = 0, primeiroDigito = 0, segundoDigito = 0;
+
+		segundoDigito = verificaCPF % 10;
+		verificaCPF / 10;
+
+		primeiroDigito = verificaCPF % 10;
+		verificaCPF / 10;
+
+		verificaAux = verificaCPF;
+
+		for(int i = 2; i < 11; i++){
+			verificaSoma += ((verificaCPF % 10) * i);
+			verificaCPF / 10;
+		}
+
+		if(verificaSoma % 11 < 2){
+			primeiroDigito = 0;
+		}else{
+		primeiroDigito = 11 - (verificaSoma % 11);
+		}
+
+		verificaAux = verificaAux * 10 + primeiroDigito;
+		verificaCPF = verificaAux;
+		verificaSoma = 0;
+
+		for(int i = 2; i < 12; i++){
+			verificaSoma += ((verificaAux % 10) * i);
+			verificaAux / 10;
+		}
+
+		if(verificaSoma % 11 < 2){
+			segundoDigito = 0;
+		}else{
+		segundoDigito = 11 - (verificaSoma % 11);
+		}
+		verificaCPF = verificaCPF * 10 + segundoDigito;
+
+		if(verificaCPF == CPF->cpf){
+			return 1;
+		}else{
+			printf("\nCPF Inválido!\n");
+			return 0;
+		}
+
+	}
+
+// leitura da String ------
+	int verificaLeStr(clientes *nome, int funcao){
+		int contador = 0;
+		int *memoria = &nome;
+
+		while (*memoria != 0)
+		{
+			contador++;
+			memoria++;
+		}
+		return contador;
+	} 
 
 
 //2 ------------------------------------------ listagem de clientes ------------------------------------------------------
