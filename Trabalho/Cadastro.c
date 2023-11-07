@@ -26,7 +26,7 @@ typedef struct{
 
 typedef struct{
 	char cpf[11];
-	char *nome;
+	char nome[100];
 	char *email;
 	char *telefone;
 	char *dataNascimento;
@@ -159,7 +159,7 @@ void cadastroClientes(clientes clientesStruct){
 
 	while (stateCad != 0)
 	{
-		printf("tem certeza que gostaria de realizar um novo cadastro?\n 1 - sim\n0 - não");
+		printf("tem certeza que gostaria de realizar um novo cadastro?\n 1 - sim\n0 - nao\n");
 		scanf("%d", &verificacaoCad);
 
 		if(verificacaoCad == 1){
@@ -178,7 +178,9 @@ void cadastroClientes(clientes clientesStruct){
 				printf("\nDigite o nome: ");
 				scanf("%s", clientesStruct.nome);
 
-				//marcaVerificacao = validacaoStr(&clientesStruct->nome);
+				marcaVerificacao = validacaoStr(&clientesStruct);
+
+				printf("%s", clientesStruct.nome);
 				
 			}
 			marcaVerificacao = -1;
@@ -260,10 +262,10 @@ stateCad = -1;
 
 	}
 
-// leitura da String ------
-	/*int validacaoStr(clientes *nome){
+// validação da String ------
+	int validacaoStr(clientes *nome){
 		int i = 0;
-		int *memoria = &nome;
+		int *memoria = &nome->nome;
 
 		
 		while (memoria[i] != '\0')
@@ -278,7 +280,7 @@ stateCad = -1;
 			i++;
 		}
 		return 1;	
-	} */
+	}
 
 
 //2 ------------------------------------------ listagem de clientes ------------------------------------------------------
