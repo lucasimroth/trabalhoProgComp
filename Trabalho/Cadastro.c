@@ -204,7 +204,54 @@ stateCad = -1;
 }
 
 // VALIDAÇÃO DO CPF ----
-	int validacaoCPF(clientes clientesStruct){
+
+int validacaoCPF(clientes clientesStruct){
+
+    int *p;
+    int primeiroDigito = 0;
+    int segundoDigito = 0;
+    int somaTotal = 0;
+
+    p = (int *)malloc(11 * sizeof(int));
+
+    for(int i = 0; i < 11; i++){
+        p[i] = clientesStruct.cpf[i] - 48;
+        printf("%d", p[i]);
+    }
+
+    for(int i = 9, j = 2; i > 0; i--, j++){
+        somaTotal += ( p[i] * j );
+    }
+
+    if(somaTotal % 11 < 2){
+        primeiroDigito = 0;
+    }else{
+        primeiroDigito = 11 - (somaTotal % 11);}
+    somaTotal = 0;
+
+    for( int i = 10, j = 2; i > 0; i--, j++){
+        somaTotal += ( p[i] * j);
+    }
+
+    if(somaTotal % 11 < 2){
+        segundoDigito = 0;
+    }else {
+        segundoDigito = 11 - (somaTotal % 11);}
+
+        printf("\n%d -> %d \n%d - > %d", p[9], primeiroDigito, p[10], segundoDigito);
+
+    if(primeiroDigito == p[9] && segundoDigito == p[10]){
+        free(p);
+        return 1;
+    }else{
+        printf("\ncpf invalido\n");
+        free(p);
+        return 0;
+    }
+
+}
+
+	/*int validacaoCPF(clientes clientesStruct){
 		long long verificaCPF = 0;
 		long long cpf;
         long long verificaAux = 0;
@@ -260,7 +307,7 @@ stateCad = -1;
 			return 0;
 		}
 
-	}
+	}*/
 
 // validação da String ------
 	int validacaoStr(clientes *nome){
