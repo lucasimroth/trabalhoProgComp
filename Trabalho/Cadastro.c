@@ -145,7 +145,7 @@ void cadastroClientes(clientes *clientesStruct){
 
 	while (stateCad != 0)
 	{
-		printf("tem certeza que gostaria de realizar um novo cadastro?\n 1 - sim\n0 - nao\n");
+		printf("tem certeza que gostaria de realizar um novo cadastro?\n\n1 - sim\n0 - nao\n");
 		scanf("%d", &verificacaoCad);
 
 		if(verificacaoCad == 1){
@@ -247,15 +247,18 @@ int primeiroDigito = 0;
 int segundoDigito = 0;
 int somaTotal = 0;
 
+printf("chega 1");
+
 	if (clientesStruct.cpf[0] == '0')
 	{
 		printf("\nOperação Cancelada.\n");
 		return 2;
 	}else
 	{
-		if(comparaSTR(clientesStruct.cpf, "00000000000" == 0) || comparaSTR(clientesStruct.cpf, "11111111111" == 0) || comparaSTR(clientesStruct.cpf, "22222222222" == 0) || comparaSTR(clientesStruct.cpf, "33333333333" == 0)
-		|| comparaSTR(clientesStruct.cpf, "44444444444" == 0) || comparaSTR(clientesStruct.cpf, "55555555555" == 0) || comparaSTR(clientesStruct.cpf, "66666666666" == 0) || comparaSTR(clientesStruct.cpf, "77777777777" == 0) 
-		|| comparaSTR(clientesStruct.cpf, "88888888888" == 0) || comparaSTR(clientesStruct.cpf, "99999999999" == 0))
+		printf("chega 2");
+		if((comparaSTR(clientesStruct.cpf, "00000000000") == 0) || (comparaSTR(clientesStruct.cpf, "11111111111") == 0) || (comparaSTR(clientesStruct.cpf, "22222222222") == 0) || (comparaSTR(clientesStruct.cpf, "33333333333") == 0)
+		|| (comparaSTR(clientesStruct.cpf, "44444444444") == 0) || (comparaSTR(clientesStruct.cpf, "55555555555") == 0) || (comparaSTR(clientesStruct.cpf, "66666666666") == 0) || (comparaSTR(clientesStruct.cpf, "77777777777") == 0)
+		|| (comparaSTR(clientesStruct.cpf, "88888888888") == 0) || (comparaSTR(clientesStruct.cpf, "99999999999") == 0))
 		{
 			printf("\ncpf invalido\n");
 			return 0;
@@ -307,6 +310,8 @@ int somaTotal = 0;
 		char *positionTwo = p2;
 		char markOne, markTwo;
 
+		printf("chega 3 = %s", p1);
+
 		do{
 			markOne = *positionOne++;
 			markTwo = *positionTwo++;
@@ -314,6 +319,7 @@ int somaTotal = 0;
 				return markOne-markTwo;
 			}
 		} while (markOne == markTwo);
+		printf("chega 4");
 
 		return markOne - markTwo;
 	}
