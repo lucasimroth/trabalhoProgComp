@@ -153,7 +153,8 @@ void cadastroClientes(clientes *clientesStruct){
 			while (marcaVerificacao != 1)
 			{
 				printf("\nDigite o CPF: ");
-				scanf("%s", (*clientesStruct).cpf);
+				//scanf("%s", (*clientesStruct).cpf);
+				strcopy((*clientesStruct).cpf, "11879956900");
 
 				marcaVerificacao =  validacaoCPF(*clientesStruct);
 
@@ -325,6 +326,18 @@ printf("chega 1");
 	}
 
 // validação da String ------
+
+int validaStr(char nome){
+
+	int i = 0;
+
+	while (nome[i] != '\0')
+	{
+		/* code */
+		i++
+	}
+	
+}
 	
 
 //2 ------------------------------------------ listagem de clientes ------------------------------------------------------
