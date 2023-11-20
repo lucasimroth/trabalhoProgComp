@@ -20,20 +20,16 @@
 //---------------------------------------------- Structs ------------------------------------------------------
 
 typedef struct{
-	char estado[20];
-	char cidade[20];
-	char rua[60];
-	int numero;
-}local;
-
-typedef struct{
 	char cpf[11];
 	char nome[100];
 	char email[50];
-	char telefone[14]; //(41)99595-7968
-	char dataNascimento[8];
-	int sexo;//0-Masculino, 1-Feminino, 3-outros
-	local endereco;
+	char telefone[11]; //41995957968
+	char dataNascimento[10];//27/02/2001
+	int genero;//1-Masculino, 2-Feminino, 3-outros
+	char estado[20];
+	char cidade[20];
+	char rua[50];
+	int numero;
 	int status;//0-Ativo, 1-Desativado
 	
 }clientes;
@@ -71,8 +67,13 @@ void consultaClientes();
 void cadastroClientes();
 	int validacaoCPF();
 	int validacaoStr();
-		int comparaSTR();
+		int comparaSTR(); // Strcmp
+		int leituraStr(); //Strlen
+		char *stringChar(const char *palavra, char caracter); 
 	int validacaoEmail();
+	int validacaoTel();
+	int validacaoData();
+	int validacaoGenero();
 void listagemClientes();
 void consultaCPF();
 void excluirClientes();
@@ -152,9 +153,9 @@ void cadastroClientes(clientes *clientesStruct){
 
 			while (marcaVerificacao != 1)
 			{
-				printf("\nDigite o CPF: ");
+				printf("\nDigite o CPF (somente numeros): ");
 				//scanf("%s", (*clientesStruct).cpf);
-				strcopy((*clientesStruct).cpf, "11879956900");
+				strcpy((*clientesStruct).cpf, "11879956900");
 
 				marcaVerificacao =  validacaoCPF(*clientesStruct);
 
@@ -168,24 +169,28 @@ void cadastroClientes(clientes *clientesStruct){
 			{
 				fflush(stdin);
 				printf("\nDigite o nome: ");
-				fgets((*clientesStruct).nome, 100, stdin);
+				//fgets((*clientesStruct).nome, 100, stdin);
+				strcpy((*clientesStruct).nome, "lucas de oliveira");
 
-				marcaVerificacao = 1; //validacaoStr(&clientesStruct);
+				marcaVerificacao = validacaoStr((*clientesStruct).nome);
+				
+				for(int i = 0; (*clientesStruct).nome[i] != '\0'; i++){
+					(*clientesStruct).nome[i] = toupper((*clientesStruct).nome[i]);
+				}
 
 				printf("%s", (*clientesStruct).nome);
 				
 			}
 			marcaVerificacao = -1;
 
-			puts("1");
-
 			while (marcaVerificacao != 1)
 			{
 				fflush(stdin);
 				printf("\ndigite seu e-mail: ");
-				scanf("%s", (*clientesStruct).email);
+				//scanf("%s", (*clientesStruct).email);
+				strcpy((*clientesStruct).email, "lucas@eu.com");
 
-				marcaVerificacao = 1; //validacaoEmail(clientesStruct);
+				marcaVerificacao = validacaoEmail(*clientesStruct);
 
 				printf("%s", (*clientesStruct).email);
 			}
@@ -194,10 +199,11 @@ void cadastroClientes(clientes *clientesStruct){
 			while (marcaVerificacao != 1)
 			{
 				fflush(stdin);
-				printf("\nDigite o Telefone: ");
-				scanf("%s", (*clientesStruct).telefone);
+				printf("\nDigite o Telefone (somente Numero com DDD): ");
+				//scanf("%s", (*clientesStruct).telefone);
+				strcpy((*clientesStruct).telefone, "41995957968");
 
-				marcaVerificacao = 1; //validacaoStr(&clientesStruct);
+				marcaVerificacao = validacaoTel(*clientesStruct);
 
 				printf("%s", (*clientesStruct).telefone);
 				
@@ -208,9 +214,10 @@ void cadastroClientes(clientes *clientesStruct){
 			{
 				fflush(stdin);
 				printf("\nDigite a Data de Nascimento modelo DD/MM/AAAA: ");
-				scanf("%s", (*clientesStruct).dataNascimento);
+				//scanf("%s", (*clientesStruct).dataNascimento);
+				strcpy((*clientesStruct).dataNascimento, "27022001");
 
-				marcaVerificacao = 1; //validacaoStr(&clientesStruct);
+				marcaVerificacao = validacaoData(*clientesStruct);
 
 				printf("%s", (*clientesStruct).dataNascimento);
 				
@@ -220,15 +227,88 @@ void cadastroClientes(clientes *clientesStruct){
 			while (marcaVerificacao != 1)
 			{
 				fflush(stdin);
-				printf("\nDigite o Sexo: ");
-				scanf("%d", &(*clientesStruct).sexo);
+				printf("\nDigite o Genero: \n\n1 - Feminino\n2 - Masculino\n3 - outros\n");
+				//scanf("%d", &(*clientesStruct).genero);
+				clientesStruct->genero = 2;
 
-				marcaVerificacao = 1; //validacaoStr(&clientesStruct);
+				marcaVerificacao = validacaoGenero(*clientesStruct);
 
-				printf("%d", (*clientesStruct).sexo);
+				printf("%d", (*clientesStruct).genero);
 				
 			}
+
 			marcaVerificacao = -1;
+
+			while (marcaVerificacao != 1)
+			{
+				fflush(stdin);
+				printf("\nDigite o Estado: ");
+				//fgets((*clientesStruct).estado, 20, stdin);
+				strcpy((*clientesStruct).estado, "Parana");
+
+				marcaVerificacao = validacaoStr((*clientesStruct).estado);
+				
+				for(int i = 0; (*clientesStruct).estado[i] != '\0'; i++){
+					(*clientesStruct).estado[i] = toupper((*clientesStruct).estado[i]);
+				}
+
+				printf("%s", (*clientesStruct).estado);
+				
+			}
+
+			marcaVerificacao = -1;
+
+			while (marcaVerificacao != 1)
+			{
+				fflush(stdin);
+				printf("\nDigite a Cidade: ");
+				fgets((*clientesStruct).cidade, 20, stdin);
+
+				marcaVerificacao = validacaoStr((*clientesStruct).cidade);
+				
+				for(int i = 0; (*clientesStruct).cidade[i] != '\0'; i++){
+					(*clientesStruct).cidade[i] = toupper((*clientesStruct).cidade[i]);
+				}
+
+				printf("%s", (*clientesStruct).cidade);
+				
+			}
+
+			marcaVerificacao = -1;
+
+			while (marcaVerificacao != 1)
+			{
+				fflush(stdin);
+				printf("\nDigite a Rua: ");
+				fgets((*clientesStruct).rua, 50, stdin);
+
+				marcaVerificacao = validacaoStr((*clientesStruct).rua);
+				
+				for(int i = 0; (*clientesStruct).rua[i] != '\0'; i++){
+					(*clientesStruct).rua[i] = toupper((*clientesStruct).rua[i]);
+				}
+
+				printf("%s", (*clientesStruct).rua);
+				
+			}
+
+			marcaVerificacao = -1;
+
+			while (marcaVerificacao != 1)
+			{
+				fflush(stdin);
+				printf("\nDigite o numero: ");
+				scanf("%d", &(*clientesStruct).numero);
+
+				if(!isdigit((*clientesStruct).numero)){
+					marcaVerificacao = -1;
+				}else{
+					marcaVerificacao = 1;
+				}
+
+				printf("%d", (*clientesStruct).numero);
+				
+			}
 			
 
 		}else{
@@ -241,78 +321,70 @@ stateCad = -1;
 
 // VALIDAÇÃO DO CPF -------------------------------------------------------------------------
 
-int validacaoCPF(clientes clientesStruct){
+	int validacaoCPF(clientes clientesStruct){
 
-int *p;
-int primeiroDigito = 0;
-int segundoDigito = 0;
-int somaTotal = 0;
+	int *p;
+	int primeiroDigito = 0;
+	int segundoDigito = 0;
+	int somaTotal = 0;
 
-printf("chega 1");
-
-	if (clientesStruct.cpf[0] == '0')
-	{
-		printf("\nOperação Cancelada.\n");
-		return 2;
-	}else
-	{
-		printf("chega 2");
-		if((comparaSTR(clientesStruct.cpf, "00000000000") == 0) || (comparaSTR(clientesStruct.cpf, "11111111111") == 0) || (comparaSTR(clientesStruct.cpf, "22222222222") == 0) || (comparaSTR(clientesStruct.cpf, "33333333333") == 0)
-		|| (comparaSTR(clientesStruct.cpf, "44444444444") == 0) || (comparaSTR(clientesStruct.cpf, "55555555555") == 0) || (comparaSTR(clientesStruct.cpf, "66666666666") == 0) || (comparaSTR(clientesStruct.cpf, "77777777777") == 0)
-		|| (comparaSTR(clientesStruct.cpf, "88888888888") == 0) || (comparaSTR(clientesStruct.cpf, "99999999999") == 0))
+		if (clientesStruct.cpf[0] == '0')
 		{
-			printf("\ncpf invalido\n");
-			return 0;
+			printf("\nOperação Cancelada.\n");
+			return 2;
 		}else
 		{
-    		p = (int *)malloc(11 * sizeof(int));
+			if((comparaSTR(clientesStruct.cpf, "00000000000") == 0) || (comparaSTR(clientesStruct.cpf, "11111111111") == 0) || (comparaSTR(clientesStruct.cpf, "22222222222") == 0) || (comparaSTR(clientesStruct.cpf, "33333333333") == 0)
+			|| (comparaSTR(clientesStruct.cpf, "44444444444") == 0) || (comparaSTR(clientesStruct.cpf, "55555555555") == 0) || (comparaSTR(clientesStruct.cpf, "66666666666") == 0) || (comparaSTR(clientesStruct.cpf, "77777777777") == 0)
+			|| (comparaSTR(clientesStruct.cpf, "88888888888") == 0) || (comparaSTR(clientesStruct.cpf, "99999999999") == 0))
+			{
+				printf("\ncpf invalido\n");
+				return 0;
+			}else
+			{
+	    		p = (int *)malloc(11 * sizeof(int));
 
-    		for(int i = 0; i < 11; i++){
-        		p[i] = clientesStruct.cpf[i] - 48;
-        		printf("%d", p[i]);
-    		}
+	    		for(int i = 0; i < 11; i++){
+	        		p[i] = clientesStruct.cpf[i] - 48;
+	        		printf("%d", p[i]);
+	    		}
 
-    		for(int i = 9, j = 2; i > 0; i--, j++){
-        		somaTotal += ( p[i] * j );
-    		}
+ 	   		for(int i = 9, j = 2; i > 0; i--, j++){
+	        		somaTotal += ( p[i] * j );
+	    		}
 
-    		if(somaTotal % 11 < 2){
-        		primeiroDigito = 0;
-    		}else{
-        		primeiroDigito = 11 - (somaTotal % 11);}
-    		somaTotal = 0;
+	    		if(somaTotal % 11 < 2){
+	        		primeiroDigito = 0;
+	    		}else{
+	        		primeiroDigito = 11 - (somaTotal % 11);}
+	    		somaTotal = 0;
 
-    		for( int i = 10, j = 2; i > 0; i--, j++){
-        		somaTotal += ( p[i] * j);
-    		}
+	    		for( int i = 10, j = 2; i > 0; i--, j++){
+	        		somaTotal += ( p[i] * j);
+	    		}
 
-    		if(somaTotal % 11 < 2){
-        		segundoDigito = 0;
-    		}else {
-        		segundoDigito = 11 - (somaTotal % 11);}
+	    		if(somaTotal % 11 < 2){
+	        		segundoDigito = 0;
+	    		}else {
+	        		segundoDigito = 11 - (somaTotal % 11);}
 
-        	printf("\n%d -> %d \n%d - > %d", p[9], primeiroDigito, p[10], segundoDigito);
-
-    		if(primeiroDigito == p[9] && segundoDigito == p[10]){
-        		free(p);
-        		return 1;
-    		}else{
-        		printf("\ncpf invalido\n");
-        		free(p);
-        		return 0;
-    		}
+	    		if(primeiroDigito == p[9] && segundoDigito == p[10]){
+	        		free(p);
+	        		return 1;
+	    		}else{
+	        		printf("\ncpf invalido\n");
+	        		free(p);
+	        		return 0;
+	    		}
+			}
 		}
 	}
-}
-// comparador de STRING vulgo STRCMP ----------------------------
+// comparador de STRING vulgo STRCMP --------------------------------------------------------
 
 	int comparaSTR(char *p1, char *p2){
 		char *positionOne = p1;
 		char *positionTwo = p2;
 		char markOne, markTwo;
-
-		printf("chega 3 = %s", p1);
-
 		do{
 			markOne = *positionOne++;
 			markTwo = *positionTwo++;
@@ -320,25 +392,180 @@ printf("chega 1");
 				return markOne-markTwo;
 			}
 		} while (markOne == markTwo);
-		printf("chega 4");
 
 		return markOne - markTwo;
 	}
 
-// validação da String ------
+// Leitura String ---------------------------------------------------------------------------
 
-int validaStr(char nome){
-
-	int i = 0;
-
-	while (nome[i] != '\0')
-	{
-		/* code */
-		i++
+	int leituraStr(char *string){
+		int qtde = 0;
+		while(*string != '\0'){
+			qtde++;
+			string++;
+		}
+		return qtde;
 	}
-	
-}
-	
+
+// STRING CHAR que busca a posição de memoria do caracter especificado ----------------------
+
+	char *stringChar(const char *palavra, char caracter){
+		char caracter1 = tolower(caracter);
+		do{
+			if(*palavra == caracter1) return (char *) palavra;
+			palavra++;
+		}while(*palavra != '\0');
+		return 0;
+	}
+
+// validação da String ----------------------------------------------------------------------
+
+	int validacaoStr(char *string){
+		char *ponteiroStr = string; 
+		char letra;
+		letra = *ponteiroStr++;
+		while(letra != '\0'){
+			if(!(isalpha(letra) || isspace(letra))){
+				return 0;
+			}
+			letra = *ponteiroStr++;
+		};
+		return 1;
+	};
+
+// validação Email ---------------------------------------------------------------------------
+
+	int validacaoEmail(clientes clientesStruct){
+		int arrobaMarca = 0;
+		int i;
+
+		for( i = 0; i < leituraStr(clientesStruct.email); i++){
+			if (clientesStruct.email[i] == '@')
+			{
+				arrobaMarca++;
+			}
+			if(clientesStruct.email[i] == ' ' || clientesStruct.email[i] == '/' || clientesStruct.email[i] == ':' || clientesStruct.email[i] == ';' 
+			|| clientesStruct.email[i] == '<' || clientesStruct.email[i] == '>' || clientesStruct.email[i] == ',' || clientesStruct.email[i] == '='
+			|| clientesStruct.email[i] == '[' || clientesStruct.email[i] == ']' || clientesStruct.email[i] == '{' || clientesStruct.email[i] == '}')
+			{
+				return 0;
+			}
+		}
+		if(arrobaMarca == 1){
+			if(clientesStruct.email[0] != '@'){
+				char *ponto = stringChar(clientesStruct.email, '.');
+
+				if(ponto != 0 && ponto > stringChar(clientesStruct.email, '@')){
+					return 1;
+				}
+			}
+		}
+		return 0;
+	}
+
+// validação do Telefone ---------------------------------------------------------------------
+
+	int validacaoTel(clientes clientesStruct){
+		if((comparaSTR(clientesStruct.telefone, "00000000000") == 0) || (comparaSTR(clientesStruct.telefone, "11111111111") == 0) || (comparaSTR(clientesStruct.telefone, "22222222222") == 0) || (comparaSTR(clientesStruct.telefone, "33333333333") == 0)
+		|| (comparaSTR(clientesStruct.telefone, "44444444444") == 0) || (comparaSTR(clientesStruct.telefone, "55555555555") == 0) || (comparaSTR(clientesStruct.telefone, "66666666666") == 0) || (comparaSTR(clientesStruct.telefone, "77777777777") == 0)
+		|| (comparaSTR(clientesStruct.telefone, "88888888888") == 0) || (comparaSTR(clientesStruct.telefone, "99999999999") == 0))
+		{
+			printf("\nNumero invalido\n");
+			return 0;
+		}else{
+		for(int i = 0; i < 11; i++){
+			
+				if(clientesStruct.telefone[i] < '0' || clientesStruct.telefone[i] > '9'){
+					printf("\n\nNumero invalido\n\n");
+					return 0;
+				}
+			}
+		}
+		return 1;
+	}
+
+// validação da Data -------------------------------------------------------------------------
+
+	int validacaoData(clientes clientesStruct){
+		int dia = -1, mes = -1, ano = 0, i, cont = 0;
+
+		for(i = 0; i < leituraStr(clientesStruct.dataNascimento); i++){
+			if(clientesStruct.dataNascimento[i] != '/' && !isdigit(clientesStruct.dataNascimento[i])){
+				return 0;
+			}
+		}
+		i = 0;
+		while (clientesStruct.dataNascimento[i] != '\0')
+		{
+			if(isdigit(clientesStruct.dataNascimento[i]))
+			{
+				if(cont == 0)
+				{
+					if(dia == -1)
+					{
+						dia = (int)clientesStruct.dataNascimento[i] - 48;
+						dia *= 10;
+					}else
+					{
+						if(i == 2 && clientesStruct.dataNascimento[i] != '/' && clientesStruct.dataNascimento[i+1] != '/'){
+							cont++;
+							i--;
+						}else{
+							dia += (int)clientesStruct.dataNascimento[i]- 48;
+						}
+					}
+				}else if(cont == 1){
+					if(mes == -1){
+						mes = (int)clientesStruct.dataNascimento[i]- 48;
+						mes *= 10;
+						
+					}else{
+						if(i == 4 && clientesStruct.dataNascimento[i] != '/' && clientesStruct.dataNascimento[i+1] != '/'){
+							cont++;
+							i--;
+						}else{
+							mes += (int)clientesStruct.dataNascimento[i]- 48;
+							
+						}
+					}
+					
+
+				}else if(cont == 2){
+					ano += (int)clientesStruct.dataNascimento[i]- 48;
+					ano *= 10;
+				}
+			}else{
+				cont++;
+			}
+			i++;
+		}
+		ano = ano / 10;
+
+		if(dia < 0 || dia > 31){
+			printf("dia invalida %d\n", dia);
+			return 0;
+		}else if( mes < 1 || mes > 12){
+			printf("mes invalida %d\n", mes);
+			return 0;
+		}else if( ano < 1900 || ano > 2023){
+			printf("ano invalida %d\n", ano);
+			return 0;
+		}else if((2023 - ano) < 18){
+			printf("cliente menor que 18 anos %d", ano - 2023);
+			return 0;
+		}
+		return 1;
+	}
+
+// validacao Genero --------------------------------------------------------------------------
+
+	int validacaoGenero(clientes clientesStruct){
+		if(clientesStruct.genero == 1 || clientesStruct.genero == 2 || clientesStruct.genero == 3 ){
+			return 1;
+		}else{
+			return 0;
+		}
+	}
 
 //2 ------------------------------------------ listagem de clientes ------------------------------------------------------
 
