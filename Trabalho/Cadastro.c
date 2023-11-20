@@ -153,9 +153,10 @@ void cadastroClientes(clientes *clientesStruct){
 
 			while (marcaVerificacao != 1)
 			{
+				fflush(stdin);
 				printf("\nDigite o CPF (somente numeros): ");
-				//scanf("%s", (*clientesStruct).cpf);
-				strcpy((*clientesStruct).cpf, "11879956900");
+				fgets((*clientesStruct).cpf, 12, stdin);
+				//strcpy((*clientesStruct).cpf, "11879956900");
 
 				marcaVerificacao =  validacaoCPF(*clientesStruct);
 
@@ -169,8 +170,8 @@ void cadastroClientes(clientes *clientesStruct){
 			{
 				fflush(stdin);
 				printf("\nDigite o nome: ");
-				//fgets((*clientesStruct).nome, 100, stdin);
-				strcpy((*clientesStruct).nome, "lucas de oliveira");
+				fgets((*clientesStruct).nome, 100, stdin);
+				//strcpy((*clientesStruct).nome, "lucas de oliveira");
 
 				marcaVerificacao = validacaoStr((*clientesStruct).nome);
 				
@@ -262,7 +263,8 @@ void cadastroClientes(clientes *clientesStruct){
 			{
 				fflush(stdin);
 				printf("\nDigite a Cidade: ");
-				fgets((*clientesStruct).cidade, 20, stdin);
+				//fgets((*clientesStruct).cidade, 20, stdin);
+				strcpy((*clientesStruct).cidade, "Curitiba");
 
 				marcaVerificacao = validacaoStr((*clientesStruct).cidade);
 				
@@ -280,7 +282,8 @@ void cadastroClientes(clientes *clientesStruct){
 			{
 				fflush(stdin);
 				printf("\nDigite a Rua: ");
-				fgets((*clientesStruct).rua, 50, stdin);
+				//fgets((*clientesStruct).rua, 50, stdin);
+				strcpy((*clientesStruct).rua, "Rua Subtenente jose makahin");
 
 				marcaVerificacao = validacaoStr((*clientesStruct).rua);
 				
@@ -298,18 +301,39 @@ void cadastroClientes(clientes *clientesStruct){
 			{
 				fflush(stdin);
 				printf("\nDigite o numero: ");
-				scanf("%d", &(*clientesStruct).numero);
+				//scanf("%d", &(*clientesStruct).numero);
+				(*clientesStruct).numero = 163;
 
-				if(!isdigit((*clientesStruct).numero)){
-					marcaVerificacao = -1;
-				}else{
+				if((*clientesStruct).numero > 0 || (*clientesStruct).numero <= 10000){
 					marcaVerificacao = 1;
+				}else{
+					marcaVerificacao = -1;
 				}
 
 				printf("%d", (*clientesStruct).numero);
 				
 			}
+
+			printf("\n\n%s\n", (*clientesStruct).cpf);
+			printf("\n\n%s\n", (*clientesStruct).nome);
+
+			(*clientesStruct).status = 1; 
 			
+			FILE *clientes;
+
+			clientes = fopen("listaClientes.txt", "w");
+
+			if(clientes != NULL){
+			printf("arquivo foi aberto corretamente");
+
+				fprintf(clientes, "%s|%s|%s|%s|%s|%d|%s|%s|%s|%d|%d\n", (*clientesStruct).cpf, (*clientesStruct).nome, (*clientesStruct).email,
+				(*clientesStruct).telefone, (*clientesStruct).dataNascimento, (*clientesStruct).genero, (*clientesStruct).estado, (*clientesStruct).cidade,
+				(*clientesStruct).rua, (*clientesStruct).numero, (*clientesStruct).status);
+
+			}else{
+				printf("arquivo nao foi aberto");
+			}
+			fclose(clientes);
 
 		}else{
 			stateCad = 0;
@@ -321,12 +345,40 @@ stateCad = -1;
 
 // VALIDAÇÃO DO CPF -------------------------------------------------------------------------
 
-	int validacaoCPF(clientes clientesStruct){
+	int validacaoCPF(clientes clientesStruct)
+	{
 
-	int *p;
-	int primeiroDigito = 0;
-	int segundoDigito = 0;
-	int somaTotal = 0;
+		int *p;
+		int primeiroDigito = 0;
+		int segundoDigito = 0;
+		int somaTotal = 0;
+		FILE *clientes;
+
+		clientes = fopen("listaClientes.txt", "r");
+
+		if(clientes != NULL){
+			printf("\narquivo foi aberto corretamente\n");
+		}else{
+			printf("\narquivo nao foi aberto\n");
+		}
+
+		char linha[290];
+
+		fflush(stdin);
+
+		while(fgets(linha, sizeof(linha), clientes) != NULL){
+			linha[strcspn(linha, "\n")] = '\0';
+
+			char *token = strtok(linha, "|");
+
+			if(comparaSTR(token, clientesStruct.cpf) == 0){
+				fclose(clientes);
+				printf("\ncpf já cadastrado.\n");
+				return 0;
+			}
+
+		}	
+
 
 		if (clientesStruct.cpf[0] == '0')
 		{
@@ -378,6 +430,7 @@ stateCad = -1;
 	    		}
 			}
 		}
+		fclose(clientes);
 	}
 // comparador de STRING vulgo STRCMP --------------------------------------------------------
 
