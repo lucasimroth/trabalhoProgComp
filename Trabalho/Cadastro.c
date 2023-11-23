@@ -90,7 +90,7 @@ void cadastroClientes();
 	int validacaoTel();
 	int validacaoData();
 	int validacaoGenero();
-		//void passagemArquivoCode();
+		void passagemArquivoCode(clientesT *clientesGeral);
 void listagemClientes();
 void consultaCPF();
 void excluirClientes();
@@ -100,7 +100,7 @@ void excluirClientes();
 int main(){
 
 	clientes clientesStruct;
-	//clientesT *clientesGeral = (clientesT *) malloc (1 * sizeof(clientesT));
+	clientesT *clientesGeral = malloc (1 * sizeof(clientesT));
 
 	int stateMain;
 
@@ -113,7 +113,7 @@ int main(){
 				//consultaFilmes();
 				break;
 			case 2:
-				consultaClientes(&clientesStruct);
+				consultaClientes(&clientesStruct, clientesGeral);
 				break;
 			case 3:
 				//consultaPedidos();
@@ -122,14 +122,16 @@ int main(){
 			break;
 		}
 	}
-	//free(clientesGeral);
+	
+	free(clientesGeral);
+
     return 1;
 }
 
 //1 ---------------------------------------- ABA CLIENTES --------------------------------------------------------------
 
 
-void consultaClientes(clientes *clientesStruct){
+void consultaClientes(clientes *clientesStruct, clientesT *clientesGeral){
 	int stateConsult = -1;
 
 	while (stateConsult != 0)
@@ -139,7 +141,7 @@ void consultaClientes(clientes *clientesStruct){
 		switch (stateConsult)
 		{
 			case 1:
-				cadastroClientes(&clientesStruct);
+				cadastroClientes(&clientesStruct, clientesGeral);
 				break;
 			case 2:
 				listagemClientes();
@@ -158,7 +160,7 @@ void consultaClientes(clientes *clientesStruct){
 
 // ----------------------------------------------- CADASTRO --------------------------------------------------------------
 
-void cadastroClientes(clientes *clientesStruct){
+void cadastroClientes(clientes *clientesStruct, clientesT *clientesGeral){
 	int stateCad = -1;
 	int verificacaoCad, marcaVerificacao = -1;
 
@@ -175,8 +177,8 @@ void cadastroClientes(clientes *clientesStruct){
 			{
 				fflush(stdin);
 				printf("\nDigite o CPF (somente numeros): ");
-				//fgets((*clientesStruct).cpf, 12, stdin);
-				strcpy((*clientesStruct).cpf, "11879956900");
+				fgets((*clientesStruct).cpf, 12, stdin);
+				//strcpy((*clientesStruct).cpf, "11879956900");
 
 				marcaVerificacao = validacaoCPF(*clientesStruct);
 
@@ -189,9 +191,9 @@ void cadastroClientes(clientes *clientesStruct){
 			{
 				fflush(stdin);
 				printf("\nDigite o nome: ");
-				//fgets((*clientesStruct).nome, 100, stdin);
+				fgets((*clientesStruct).nome, 100, stdin);
 				
-				strcpy((*clientesStruct).nome, "lucas de oliveira");
+				//strcpy((*clientesStruct).nome, "lucas de oliveira");
 
 				marcaVerificacao = validacaoStr((*clientesStruct).nome);
 				
@@ -210,8 +212,8 @@ void cadastroClientes(clientes *clientesStruct){
 			{
 				fflush(stdin);
 				printf("\ndigite seu e-mail: ");
-				//fgets((*clientesStruct).email, 50, stdin);
-				strcpy((*clientesStruct).email, "lucas@eu.com");
+				fgets((*clientesStruct).email, 50, stdin);
+				//strcpy((*clientesStruct).email, "lucas@eu.com");
 
 				marcaVerificacao = validacaoEmail(*clientesStruct);
 
@@ -230,8 +232,8 @@ void cadastroClientes(clientes *clientesStruct){
 			{
 				fflush(stdin);
 				printf("\nDigite o Telefone (somente Numero com DDD): ");
-				//fgets((*clientesStruct).telefone, 12, stdin);
-				strcpy((*clientesStruct).telefone, "41995957968");
+				fgets((*clientesStruct).telefone, 12, stdin);
+				//strcpy((*clientesStruct).telefone, "41995957968");
 
 				marcaVerificacao = validacaoTel(*clientesStruct);
 
@@ -247,8 +249,8 @@ void cadastroClientes(clientes *clientesStruct){
 			{
 				fflush(stdin);
 				printf("\nDigite a Data de Nascimento modelo DD/MM/AAAA: ");
-				//scanf("%s", (*clientesStruct).dataNascimento);
-				strcpy((*clientesStruct).dataNascimento, "27022001");
+				scanf("%s", (*clientesStruct).dataNascimento);
+				//strcpy((*clientesStruct).dataNascimento, "27022001");
 				fflush(stdin);
 				marcaVerificacao = validacaoData(*clientesStruct);
 
@@ -264,8 +266,8 @@ void cadastroClientes(clientes *clientesStruct){
 			{
 				fflush(stdin);
 				printf("\nDigite o Genero: \n\n1 - Feminino\n2 - Masculino\n3 - outros\n");
-				//scanf("%d", &(*clientesStruct).genero);
-				clientesStruct->genero = 2;
+				scanf("%d", &(*clientesStruct).genero);
+				//clientesStruct->genero = 2;
 				fflush(stdin);
 				marcaVerificacao = validacaoGenero(*clientesStruct);
 
@@ -279,8 +281,8 @@ void cadastroClientes(clientes *clientesStruct){
 			{
 				fflush(stdin);
 				printf("\nDigite o Estado: ");
-				//fgets((*clientesStruct).estado, 20, stdin);
-				strcpy((*clientesStruct).estado, "Parana");
+				fgets((*clientesStruct).estado, 20, stdin);
+				//strcpy((*clientesStruct).estado, "Parana");
 
 				marcaVerificacao = validacaoStr((*clientesStruct).estado);
 				
@@ -301,8 +303,8 @@ void cadastroClientes(clientes *clientesStruct){
 			{
 				fflush(stdin);
 				printf("\nDigite a Cidade: ");
-				//fgets((*clientesStruct).cidade, 20, stdin);
-				strcpy((*clientesStruct).cidade, "Curitiba");
+				fgets((*clientesStruct).cidade, 20, stdin);
+				//strcpy((*clientesStruct).cidade, "Curitiba");
 
 				marcaVerificacao = validacaoStr((*clientesStruct).cidade);
 				
@@ -322,8 +324,8 @@ void cadastroClientes(clientes *clientesStruct){
 			{
 				fflush(stdin);
 				printf("\nDigite a Rua: ");
-				//fgets((*clientesStruct).rua, 50, stdin);
-				strcpy((*clientesStruct).rua, "Rua Subtenente jose makahin");
+				fgets((*clientesStruct).rua, 50, stdin);
+				//strcpy((*clientesStruct).rua, "Rua Subtenente jose makahin");
 
 				marcaVerificacao = validacaoStr((*clientesStruct).rua);
 				
@@ -343,8 +345,8 @@ void cadastroClientes(clientes *clientesStruct){
 			{
 				fflush(stdin);
 				printf("\nDigite o numero: ");
-				//scanf("%d", &(*clientesStruct).numero);
-				(*clientesStruct).numero = 163;
+				scanf("%d", &(*clientesStruct).numero);
+				//(*clientesStruct).numero = 163;
 				fflush(stdin);
 
 				if((*clientesStruct).numero > 0 || (*clientesStruct).numero <= 10000){
@@ -371,7 +373,7 @@ void cadastroClientes(clientes *clientesStruct){
 		arquivo = fopen("listaClientes.txt", "a");
 
 		if(arquivo != NULL){
-			printf("\n\narquivo foi aberto corretamente\n\n");
+			printf("\n\narquivo foi aberto corretamente no final do cadastro\n\n");
 		}else{
 			printf("\n\narquivo nao foi aberto no final do cadastro\n\n");
 		}
@@ -384,7 +386,7 @@ void cadastroClientes(clientes *clientesStruct){
 		}else{
 			stateCad = 0;
 		}
-	//passagemArquivoCode(&clientesGeral);
+	passagemArquivoCode(clientesGeral);
 	}
 stateCad = -1;
 }
@@ -403,7 +405,7 @@ stateCad = -1;
 		arquivo = fopen("listaClientes.txt", "r");
 
 		if(arquivo != NULL){
-			printf("\narquivo foi aberto corretamente em validação CPF\n"); //+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+			printf("\narquivo foi aberto corretamente em validação CPF\n");
 		}else{
 			printf("\narquivo nao foi aberto em validação CPF\n");
 		}
@@ -423,7 +425,10 @@ stateCad = -1;
 				printf("\ncpf já cadastrado.\n");
 				return 0;
 			}
+
 		}
+
+		
 		
 			if((comparaSTR(clientesStruct.cpf, "00000000000") == 0) || (comparaSTR(clientesStruct.cpf, "11111111111") == 0) || (comparaSTR(clientesStruct.cpf, "22222222222") == 0) || (comparaSTR(clientesStruct.cpf, "33333333333") == 0)
 			|| (comparaSTR(clientesStruct.cpf, "44444444444") == 0) || (comparaSTR(clientesStruct.cpf, "55555555555") == 0) || (comparaSTR(clientesStruct.cpf, "66666666666") == 0) || (comparaSTR(clientesStruct.cpf, "77777777777") == 0)
@@ -440,8 +445,7 @@ stateCad = -1;
 	        		printf("%d", p[i]);
 	    		}
 
- 	   			for(int i = 0, j = 10; i < tamanho - 2; i++, j--)
-				{
+ 	   		for(int i = 0, j = 10; i < tamanho - 2; i++, j--){
 	        		primeiroDigito += ( p[i] * j );
 	    		}
 				primeiroDigito %= 11;
@@ -674,26 +678,35 @@ stateCad = -1;
     	}
 	}
 
-// PASSAGEM VETOR ----------------------------------------------------------------------------
+//PASSAGEM ARQUIVO --------------------------------------------------------------------------
 
-	/*void passagemArquivoCode(clientesT *clientesGeral){
+	void passagemArquivoCode(clientesT *clientesGeral){
 		FILE *arquivo;
 		int qtdeClientes;
-		char linha[sizeof(clientesT)];
-		char *pt;
 
 		arquivo = fopen("listaClientes.txt", "r");
 
 		if(arquivo != NULL){
 			printf("\narquivo foi aberto corretamente em passagemArquivo\n");
 		}else{
-			printf("\narquivo nao foi aberto\n");
+			printf("\narquivo nao foi aberto em passagemArquivo\n");
 		}
-		puts("debug 1");
 		fscanf(arquivo, "%d", &qtdeClientes);
-		puts("debug 1.5");
-		clientesGeral = realloc(clientesGeral, qtdeClientes * sizeof(clientesT));
-		puts("debug 2");
+
+		clientesT *p = realloc(clientesGeral, qtdeClientes * sizeof(clientesGeral));
+
+		if(clientesGeral != NULL){
+			printf("\ndeu boa no realloc\n");
+			clientesGeral = p;
+		}else{
+			printf("\nfudeu deu ruim no realloc\n");
+		}
+
+		//teste a partir daqui -----
+		char linha[sizeof(clientesT)];
+		char *pt;
+		clientesT *marca;
+
 		for (int i = 0; i < qtdeClientes; i++)
 		{
 			puts("debug 3");
@@ -701,48 +714,50 @@ stateCad = -1;
 
 			pt = strtok(linha, "|");
 
-			while(pt)
+			for(marca = &clientesGeral[0]; marca < &clientesGeral[qtdeClientes - 1]; marca++)
 			{
 				puts("debug 4");
-				strcpy(clientesGeral[i].cpf, pt);
+				strcpy(marca->cpf, pt);
+				printf("%s", marca->cpf);
 				pt = strtok(NULL, "|");
-				strcpy(clientesGeral[i].nome, pt);
+				strcpy(marca->nome, pt);
+				printf("%s", marca->nome);
 				pt = strtok(NULL, "|");
-				strcpy(clientesGeral[i].email, pt);
+				strcpy(marca->email, pt);
 				pt = strtok(NULL, "|");
-				strcpy(clientesGeral[i].telefone, pt);
+				strcpy(marca->telefone, pt);
 				pt = strtok(NULL, "|");
-				strcpy(clientesGeral[i].dataNascimento, pt);
+				strcpy(marca->dataNascimento, pt);
 				pt = strtok(NULL, "|");
-				clientesGeral[i].genero = ((int)*pt) - 48; 
+				marca->genero = ((int)*pt) - 48; 
 				pt = strtok(NULL, "|");
-				strcpy(clientesGeral[i].estado, pt);
+				strcpy(marca->estado, pt);
 				pt = strtok(NULL, "|");
-				strcpy(clientesGeral[i].cidade, pt);
+				strcpy(marca->cidade, pt);
 				pt = strtok(NULL, "|");
-				strcpy(clientesGeral[i].rua, pt);
+				strcpy(marca->rua, pt);
 				pt = strtok(NULL, "|");
 				for (int i = 0, j = strlen(pt); i < j; i++)
 				{
 					puts("debug 5");
-					clientesGeral[i].numero = pt[i] = 48;
-					clientesGeral[i].numero *= 10;
+					marca->numero = pt[i] = 48;
+					marca->numero *= 10;
 				}
-				clientesGeral[i].numero /= 10;
+				marca->numero /= 10;
 				pt = strtok(NULL, "\n");
-				clientesGeral[i].status = ((int)*pt) - 48;
+				marca->status = ((int)*pt) - 48;
 				puts("debug 6");
 			}
 		}
-		for(int i = 0; i < qtdeClientes; i++){
-			printf("%s|%s|%s|%s|%s|%d|%s|%s|%s|%d|%d\n", clientesGeral[i].cpf, clientesGeral[i].nome, clientesGeral[i].email,
-		clientesGeral[i].telefone, clientesGeral[i].dataNascimento, clientesGeral[i].genero, clientesGeral[i].estado, clientesGeral[i].cidade,
-		clientesGeral[i].rua, clientesGeral[i].numero, clientesGeral[i].status);
+		for(marca = &clientesGeral[0]; marca < &clientesGeral[qtdeClientes - 1]; marca++){
+			printf("%s|%s|%s|%s|%s|%d|%s|%s|%s|%d|%d\n", marca->cpf, marca->nome, marca->email,
+		marca->telefone, marca->dataNascimento, marca->genero, marca->estado, marca->cidade,
+		marca->rua, marca->numero, marca->status);
 		}
 		puts("debug 7");
-	fclose(arquivo);
 
-	}*/
+		fclose(arquivo);
+	}
 
 //2 ------------------------------------------ listagem de clientes ------------------------------------------------------
 
