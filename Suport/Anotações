@@ -1,0 +1,23 @@
+⚠️Trabalhando Atualmente: construindo loop de programa e implementando máquina de estados para os filmes.
+
+🚧️Alterações:
+	•Loop do programa - 100%.
+	•Maquina de estados iniciada.
+	•Todos os filtros de filmes estão 100% funcionais (a base pode ser reutilizada para as demais partes).
+
+🧭️Visão geral: - 22%
+	0 - Construir Mapa do programa. - 33%
+		>falta mapa do State 2 e 3
+		
+	1 - Organizar escopo e construir as janelas e tabelas. - 33%
+		>falta escopo do State 2 e 3
+		
+	2 - Construir loop do programa e máquina de estados. - 20%
+		>loop - OK
+		>falta completar a maquina do State 1 e tudo para State 2 e 3
+		
+	3 - Validar e tratar entradas (validações prontas, por Lucas).
+		>TUDO
+
+!TABELA DE FILMES JÁ FORMATADA, BASTA INSERIR REGISTROS
+!TODO O SISTEMA DE GESTÃO DE ARQUIVOS ESTÁ PRONTA, FALTA APENAS ORDENAR NA VISUALIZAÇÃO
