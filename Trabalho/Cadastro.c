@@ -683,6 +683,8 @@ stateCad = -1;
 	void passagemArquivoCode(clientesT *clientesGeral){
 		FILE *arquivo;
 		int qtdeClientes;
+        char linha[100] , *pt;
+        clientesT *p, *marca;
 
 		arquivo = fopen("listaClientes.txt", "r");
 
@@ -693,69 +695,65 @@ stateCad = -1;
 		}
 		fscanf(arquivo, "%d", &qtdeClientes);
 
-		clientesT *p = realloc(clientesGeral, qtdeClientes * sizeof(clientesGeral));
+		p = malloc(qtdeClientes * sizeof(clientesGeral));
 
-		if(clientesGeral != NULL){
+		if(p != NULL){
 			printf("\ndeu boa no realloc\n");
-			clientesGeral = p;
 		}else{
 			printf("\nfudeu deu ruim no realloc\n");
 		}
 
 		//teste a partir daqui -----
-		char linha[sizeof(clientesT)];
-		char *pt;
-		clientesT *marca;
 
 		for (int i = 0; i < qtdeClientes; i++)
 		{
-			puts("debug 3");
-			fgets(linha, sizeof(linha), arquivo);
+			while (fscanf(arquivo, "%s", linha) == 1) {
+        		printf("%s\n" , linha); // Para ver na tela a linha que foi lida do arquivo, pode tirar depois
+				    pt = strtok(linha, "|");
+        			while( pt != NULL ) {
+            			printf( "%s\n", pt ); // Para ver na tela a palavra separada da linha, pode tirar depois
 
-			pt = strtok(linha, "|");
+						strcpy(marca->cpf, pt);
+						printf("%s", marca->cpf); // Para ver o que tem na struct, pode tirar depois
 
-			for(marca = &clientesGeral[0]; marca < &clientesGeral[qtdeClientes - 1]; marca++)
-			{
-				puts("debug 4");
-				strcpy(marca->cpf, pt);
-				printf("%s", marca->cpf);
-				pt = strtok(NULL, "|");
-				strcpy(marca->nome, pt);
-				printf("%s", marca->nome);
-				pt = strtok(NULL, "|");
-				strcpy(marca->email, pt);
-				pt = strtok(NULL, "|");
-				strcpy(marca->telefone, pt);
-				pt = strtok(NULL, "|");
-				strcpy(marca->dataNascimento, pt);
-				pt = strtok(NULL, "|");
-				marca->genero = ((int)*pt) - 48; 
-				pt = strtok(NULL, "|");
-				strcpy(marca->estado, pt);
-				pt = strtok(NULL, "|");
-				strcpy(marca->cidade, pt);
-				pt = strtok(NULL, "|");
-				strcpy(marca->rua, pt);
-				pt = strtok(NULL, "|");
-				for (int i = 0, j = strlen(pt); i < j; i++)
-				{
-					puts("debug 5");
-					marca->numero = pt[i] = 48;
-					marca->numero *= 10;
-				}
-				marca->numero /= 10;
-				pt = strtok(NULL, "\n");
-				marca->status = ((int)*pt) - 48;
-				puts("debug 6");
-			}
+						pt = strtok(NULL, "|");
+						strcpy(marca->nome, pt);
+
+						pt = strtok(NULL, "|");
+						strcpy(marca->email, pt);
+
+						pt = strtok(NULL, "|");
+						strcpy(marca->telefone, pt);
+
+						pt = strtok(NULL, "|");
+						strcpy(marca->dataNascimento, pt);
+
+						pt = strtok(NULL, "|");
+						marca->genero = ((int)*pt) - 48; 
+
+						pt = strtok(NULL, "|");
+						strcpy(marca->estado, pt);
+
+						pt = strtok(NULL, "|");
+						strcpy(marca->cidade, pt);
+
+						pt = strtok(NULL, "|");
+						strcpy(marca->rua, pt);
+
+						pt = strtok(NULL, "|");
+						for (int i = 0, j = strlen(pt); i < j; i++)
+						{
+							marca->numero = pt[i] = 48;
+							marca->numero *= 10;
+						}
+						marca->numero /= 10;
+						pt = strtok(NULL, "\n");
+						marca->status = ((int)*pt) - 48;
+
+
+        			}
+        	}
 		}
-		for(marca = &clientesGeral[0]; marca < &clientesGeral[qtdeClientes - 1]; marca++){
-			printf("%s|%s|%s|%s|%s|%d|%s|%s|%s|%d|%d\n", marca->cpf, marca->nome, marca->email,
-		marca->telefone, marca->dataNascimento, marca->genero, marca->estado, marca->cidade,
-		marca->rua, marca->numero, marca->status);
-		}
-		puts("debug 7");
-
 		fclose(arquivo);
 	}
 
